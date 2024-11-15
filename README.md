@@ -1,1 +1,0 @@
-                            DIGITAL SINAGE SYSTEM
