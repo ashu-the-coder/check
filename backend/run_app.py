@@ -1,3 +1,3 @@
-from app import app
+from frontend.app import app
 
-app.run(host = 'localhost', port = '9000',debug=True)
+app.run(host='0.0.0.0', port=5000)

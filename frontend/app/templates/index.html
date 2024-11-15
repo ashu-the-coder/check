@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <style type="text/css">
   .navbar-item:hover {
     background-color: #b9293c;
@@ -12,7 +14,6 @@
     float: right;
   }
 
-  /* Title, subtitle, and horizontal line. */
   .title {
     margin-top: 9rem;
     text-align: center;
@@ -20,7 +21,7 @@
   }
 
   .title-text {
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 5rem;
   }
 
@@ -35,7 +36,6 @@
     width: 55rem;
   }
 
-  /* Buttons, post text area, name input, and body styling. */
   .content {
     min-height: 100%;
     height: 100%;
@@ -48,7 +48,7 @@
 
   .post-textarea,
   .name-input {
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 1.8rem;
     padding: 1.2rem;
     border-radius: 0.4rem;
@@ -60,13 +60,10 @@
   .request_tx {
     margin: 2.5rem 2.5rem 14rem 2.5rem;
   }
- 
-  
-  /* Post boxes styling */
+
   .post_box {
     background: rgb(131, 251, 245);
     padding: 1.2rem 0 0 1.2rem;
-    margin-top: 0;
     margin-bottom: 0.8rem;
     border: 0.1rem solid #7f8c8d;
   }
@@ -127,11 +124,17 @@
     height: 4.2rem;
   }
 </style>
+
 <div class="container-fluid">
   <div class="row" style="padding-top: 10px">
-    <div class="col-sm-4" style="">
+    <div class="col-sm-4">
       <h2 class="text-center alert alert-primary">Upload a File</h2>
-      <form action="/submit" method="POST" enctype="multipart/form-data">
+      <!-- Update the action to match the Render backend API -->
+      <form
+        action="https://your-render-backend-url/api/submit"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <div class="form-group">
           <label>User Name:</label>
           <input
@@ -139,6 +142,7 @@
             class="form-control"
             name="user"
             placeholder="Enter Your Name"
+            required
           />
         </div>
 
@@ -149,6 +153,7 @@
             id="fileUpld"
             name="v_file"
             accept=".*"
+            required
           />
         </div>
         <button type="submit" class="btn btn-primary mb-2">Upload</button>
@@ -157,6 +162,7 @@
 
     <div class="col-sm-7">
       <h2 class="text-center alert alert-primary">Uploaded Files</h2>
+      {% if request_tx %}
       {% for post in request_tx %}
       <div class="post_box">
         <div class="post_box-header">
@@ -167,21 +173,27 @@
             "
             class="post_box-avatar"
           >
-            {{post.user[0]}}
+            {{ post.user[0] }}
           </div>
-          <div class="name-header">{{post.user}}</div>
+          <div class="name-header">{{ post.user }}</div>
         </div>
         <div>
           <div class="post_box-body">
             <p>
-              {{post.v_file}}&#x2192<a href="{{url_for('download_file',variable = post.v_file)}}"
-                >Download</a
+              {{ post.v_file }} →
+              <a
+                href="https://your-render-backend-url/api/download/{{ post.v_file }}"
               >
+                Download
+              </a>
             </p>
           </div>
         </div>
       </div>
       {% endfor %}
+      {% else %}
+      <p>No files have been uploaded yet.</p>
+      {% endif %}
     </div>
 
     <div class="col-sm-1"></div>

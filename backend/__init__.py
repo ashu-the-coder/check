@@ -1,3 +1,5 @@
-# backend/__init__.py
+from flask import Flask
 
-from .Blockchain import Blockchain
+app = Flask(__name__)
+
+from check.backend.views import views
